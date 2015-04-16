@@ -15,6 +15,10 @@ app.get('/api/check', function(req, res) {
 });
 
 
+app.post('/api/check', function(req, res) {
+  res.send(req.body);
+});
+
 app.listen(process.env.PORT || 3000, function() {
   console.log('Express server listening on port ');
 });
