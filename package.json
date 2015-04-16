@@ -1,0 +1,24 @@
+{
+	"name": "moderator",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Egor-Sapronov/moderator.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Egor-Sapronov/moderator/issues"
+	},
+	"homepage": "https://github.com/Egor-Sapronov/moderator",
+	"dependencies": {
+		"body-parser": "^1.12.3",
+		"express": "^4.12.3"
+	}
+}
