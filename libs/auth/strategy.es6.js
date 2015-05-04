@@ -36,7 +36,7 @@ function googleStartegy(accessToken, tokenSecret, profile, done) {
                         provider: profile.provider,
                         profileLink: profile.profileUrl,
                         displayName: profile.displayName,
-                        name: profile._json.name,
+                        name: profile._json.displayName,
                         email: profile._json.email,
                         gender: profile.gender
                     })
