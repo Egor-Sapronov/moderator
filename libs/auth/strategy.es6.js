@@ -2,7 +2,7 @@
 
 let db = require('../database.es6');
 let authService = require('./authService.es6');
-
+let keyFactory = require('../api/keyFactory.es6');
 
 /**
  * Exchange user for access token
@@ -25,35 +25,32 @@ function bearerStrategy(accessToken, done) {
 }
 
 function googleStartegy(accessToken, tokenSecret, profile, done) {
-    console.log(profile);
     db.User
-        .find({where: {providerId: profile.id}})
-        .then(function (user) {
-            if (!user) {
-                db.User
-                    .create({
-                        providerId: profile.id,
-                        provider: profile.provider,
-                        profileLink: profile.profileUrl,
-                        displayName: profile.displayName,
-                        name: profile._json.displayName,
-                        email: profile._json.email,
-                        gender: profile.gender
-                    })
-                    .then(function (user) {
-                        authService
-                            .saveToken(user, accessToken)
-                            .then(function () {
-                                return done(null, user);
-                            });
-                    });
-            } else {
-                authService
-                    .saveToken(user, accessToken)
-                    .then(function () {
-                        return done(null, user);
-                    });
+        .findOrCreate({
+            where: {providerId: profile.id},
+            defaults: {
+                providerId: profile.id,
+                provider: profile.provider,
+                profileLink: profile.profileUrl,
+                displayName: profile.displayName,
+                name: profile._json.displayName,
+                email: profile._json.email,
+                gender: profile.gender
             }
+        })
+        .spread(function (user, created) {
+            authService
+                .saveToken(user, accessToken)
+                .then(function () {
+                    if (created) {
+                        return keyFactory.generate(user.id);
+                    }
+
+                    return Promise.resolve();
+                })
+                .then(function () {
+                    return done(null, user);
+                });
         });
 }
 

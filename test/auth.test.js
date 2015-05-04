@@ -1,5 +1,5 @@
 'use strict';
-process.env.DATABASE_URL = "postgres://localhost:5432/test";
+require('./test.env.es6');
 
 let expect = require('chai').expect;
 
@@ -60,7 +60,7 @@ describe('Auth service', function () {
 });
 
 describe('Auth strategy, facebook and bearer', function () {
-    var strategy = require('../libs/auth/strategy.es6');
+    let strategy = require('../libs/auth/strategy.es6');
 
     it('Should exist', function () {
         expect(strategy).to.be.ok;
@@ -68,10 +68,10 @@ describe('Auth strategy, facebook and bearer', function () {
 
     describe('#googleStartegy', function () {
         it('Should save user and access token in db', function (done) {
-            var db = require('../libs/database.es6');
+            let db = require('../libs/database.es6');
             db.sequelize.sync({force: true})
                 .then(function () {
-                    var profile = {
+                    let profile = {
                         id: '1',
                         provider: 'facebook',
                         profileUrl: 'https://link.com',
@@ -82,8 +82,8 @@ describe('Auth strategy, facebook and bearer', function () {
                             email: 'sapronov egor'
                         }
                     };
-                    var accessToken = 'token';
-                    var tokenSecret = 'refreshtoken';
+                    let accessToken = 'token';
+                    let tokenSecret = 'refreshtoken';
 
                     strategy.googleStartegy(accessToken, tokenSecret, profile, function (err, user) {
                         expect(user).to.be.ok;
@@ -94,7 +94,7 @@ describe('Auth strategy, facebook and bearer', function () {
         });
 
         it('Should update user access token if user already exist', function (done) {
-            var db = require('../libs/database.es6');
+            let db = require('../libs/database.es6');
             db.sequelize.sync({force: true})
                 .then(function () {
                     return db.User
@@ -104,7 +104,7 @@ describe('Auth strategy, facebook and bearer', function () {
                         });
                 })
                 .then(function (entity) {
-                    var profile = {
+                    let profile = {
                         id: '1',
                         provider: 'facebook',
                         profileUrl: 'https://link.com',
@@ -115,8 +115,8 @@ describe('Auth strategy, facebook and bearer', function () {
                             email: 'sapronov egor'
                         }
                     };
-                    var accessToken = 'token';
-                    var tokenSecret = 'refreshtoken';
+                    let accessToken = 'token';
+                    let tokenSecret = 'refreshtoken';
 
                     strategy.googleStartegy(accessToken, tokenSecret, profile, function (err, user) {
                         expect(user).to.be.ok;
@@ -129,9 +129,9 @@ describe('Auth strategy, facebook and bearer', function () {
 
     describe('#bearerStrategy', function () {
         it('Should return user by related access token', function (done) {
-            var db = require('../libs/database.es6');
-            var user;
-            var token;
+            let db = require('../libs/database.es6');
+            let user;
+            let token;
             db.sequelize.sync({force: true})
                 .then(function () {
                     return db.User
@@ -158,7 +158,7 @@ describe('Auth strategy, facebook and bearer', function () {
         });
 
         it('Should not return user if token is not exist', function (done) {
-            var db = require('../libs/database.es6');
+            let db = require('../libs/database.es6');
             db.sequelize.sync({force: true})
                 .then(function () {
                     strategy.bearerStrategy('badtoken', function (err, user) {

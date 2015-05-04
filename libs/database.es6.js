@@ -10,9 +10,11 @@ let db = {
     sequelize: sequelize,
     Sequelize: Sequelize,
     User: sequelize.import('User', require('./model/user.es6')),
-    AccessToken: sequelize.import('AccessToken', require('./model/accessToken.es6'))
+    AccessToken: sequelize.import('AccessToken', require('./model/accessToken.es6')),
+    ApiKey: sequelize.import('ApiKey', require('./model/apiKey.es6'))
 };
 
 db.AccessToken.belongsTo(db.User);
+db.ApiKey.belongsTo(db.User);
 
 module.exports = db;
