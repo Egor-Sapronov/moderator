@@ -17,20 +17,10 @@ app.get('/auth/google',
     }));
 
 app.get('/oauth2callback',
-    passport.authenticate('google'),
-    function (req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('/');
-    });
-
-app.get('/api/check', function (req, res) {
-    res.send('check');
-});
-
-
-app.post('/api/check', function (req, res) {
-    res.send(req.body);
-});
+    passport.authenticate('google', {
+        successRedirect: '/auth/google/success',
+        failureRedirect: '/auth/google/failure'
+    }));
 
 app.listen(process.env.PORT || 3000, function () {
     console.log('Express server listening on port ');
