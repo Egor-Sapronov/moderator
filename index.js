@@ -1,26 +1,12 @@
 'use strict';
 
-var express = require('express');
-var app = express();
-var bodyparser = require('body-parser');
-var passport = require('./libs/auth/auth.es6').passport;
+let app = require('./app');
+let db = require('./libs/data/database.es6');
 
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({
-    extended: false
-}));
-
-app.get('/auth/google',
-    passport.authenticate('google', {
-        scope: ['https://www.googleapis.com/auth/userinfo.profile']
-    }));
-
-app.get('/oauth2callback',
-    passport.authenticate('google', {
-        successRedirect: '/auth/google/success',
-        failureRedirect: '/auth/google/failure'
-    }));
-
-app.listen(process.env.PORT || 3000, function () {
-    console.log('Express server listening on port ');
-});
+db.sequelize
+    .sync({force: true})
+    .then(function () {
+        app.listen(process.env.PORT || 3000, function () {
+            console.log('Express server listening on port ' + process.env.PORT);
+        });
+    });
