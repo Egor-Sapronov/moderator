@@ -12,8 +12,7 @@ app.use(bodyparser.urlencoded({
 
 app.get('/auth/google',
     passport.authenticate('google', {
-        scope: ['https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email']
+        scope: ['https://www.googleapis.com/auth/userinfo']
     }));
 
 app.get('/oauth2callback',
