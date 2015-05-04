@@ -1,9 +1,9 @@
 'use strict';
 
-let express = require('express');
-let app = express();
-let bodyparser = require('body-parser');
-let passport = require('./libs/auth/auth.es6').passport;
+var express = require('express');
+var app = express();
+var bodyparser = require('body-parser');
+var passport = require('./libs/auth/auth.es6').passport;
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({
