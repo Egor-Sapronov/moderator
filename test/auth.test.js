@@ -84,9 +84,8 @@ describe('Auth strategy, facebook and bearer', function () {
                     };
                     var accessToken = 'token';
                     var refreshToken = 'refreshtoken';
-                    var request = {};
 
-                    strategy.googleStartegy(request, accessToken, refreshToken, profile, function (err, user) {
+                    strategy.googleStartegy(accessToken, refreshToken, profile, function (err, user) {
                         expect(user).to.be.ok;
                         expect(user.providerId).to.equal(profile.id);
                         done();
@@ -118,9 +117,8 @@ describe('Auth strategy, facebook and bearer', function () {
                     };
                     var accessToken = 'token';
                     var refreshToken = 'refreshtoken';
-                    var request = {};
 
-                    strategy.googleStartegy(request, accessToken, refreshToken, profile, function (err, user) {
+                    strategy.googleStartegy(accessToken, refreshToken, profile, function (err, user) {
                         expect(user).to.be.ok;
                         expect(user.providerId).to.equal(profile.id);
                         done();

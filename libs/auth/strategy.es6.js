@@ -24,7 +24,7 @@ function bearerStrategy(accessToken, done) {
         });
 }
 
-function googleStartegy(request, accessToken, refreshToken, profile, done) {
+function googleStartegy(accessToken, refreshToken, profile, done) {
     console.log(profile);
     db.User
         .find({where: {providerId: profile.id}})
