@@ -1,7 +1,7 @@
 'use strict';
 
 let app = require('./app');
-let db = require('./libs/data/database.es6');
+let db = require('./libs/database.es6');
 
 db.sequelize
     .sync({force: true})
