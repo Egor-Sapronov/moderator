@@ -5,4 +5,7 @@ nav.navbar.navbar-default.navbar-static-top
 
         ul.nav.navbar-nav.navbar-right
             li
-                a(href='/auth/google') Sign up
+                if user
+                    a(href='/home') Hello, {user}
+                else
+                    a(href='/auth/google') Sign in
