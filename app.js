@@ -63,7 +63,7 @@ app.post('/api/execute', function (req, res) {
                 res.status(400).send('Invalid API key');
             }
 
-            res.status(200).send('Success');
+            res.status(200).send({result: 'Success'});
         });
 
 });
