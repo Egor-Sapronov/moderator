@@ -51,8 +51,8 @@ block scripts
             })
                     .then(status)
                     .then(json)
-                    .then(function (data) {
-                        document.getElementById('result_container').innerHTML = '<p>' + data.result + '</p>';
+                    .then(function (result) {
+                        document.getElementById('result_container').innerHTML = '<p>' + result.result + '</p>';
                     });
         };
 
