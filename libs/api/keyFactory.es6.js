@@ -6,7 +6,7 @@ module.exports = (function () {
 
     function generate(userId) {
         return db.ApiKey.create({
-            key: crypto.randomBytes(32).toString('hex'),
+            key: crypto.randomBytes(16).toString('hex'),
             UserId: userId
         });
     }
