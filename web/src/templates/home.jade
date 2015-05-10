@@ -1,5 +1,8 @@
 extends ./partials/layout
 
+block title
+    title Room
+
 block header
     include ./partials/navbar
 
@@ -16,7 +19,7 @@ block main
                             textarea.form-control#content_input
                         .form-group
                             label(for='key_input') Place your API Key
-                            input.form-control#key_input #{key}
+                            input.form-control#key_input(value=key)
                         button.btn.btn-default(type='submit') Check
 
 block scripts
