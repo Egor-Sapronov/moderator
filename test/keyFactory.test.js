@@ -2,13 +2,12 @@
 require('./test.env.es6');
 
 let expect = require('chai').expect;
+let factory = require('../libs/api/keyFactory.es6');
+let db = require('../libs/database.es6');
 
 describe('Key factory', function () {
     describe('#generate', function () {
         it('Should generate unique api key for user', function (done) {
-            let factory = require('../libs/api/keyFactory.es6');
-            let db = require('../libs/database.es6');
-
             db.sequelize
                 .sync({force: true})
                 .then(function () {
@@ -25,6 +24,30 @@ describe('Key factory', function () {
                             return factory.generate()
                                 .then(function (nextKey) {
                                     expect(key.key).to.not.equal(nextKey.key);
+                                    done();
+                                });
+                        });
+                });
+        });
+    });
+
+    describe('#getKey', function () {
+        it('Should return key for the user', function (done) {
+            db.sequelize
+                .sync({force: true})
+                .then(function () {
+                    return db.User
+                        .create({
+                            providerId: '1',
+                            profileLink: 'https://link.com'
+                        });
+                })
+                .then(function (user) {
+                    return factory.generate(user.id)
+                        .then(function (key) {
+                            return factory.getKey(user.id)
+                                .then(function (resultKey) {
+                                    expect(key.key).to.be.equal(resultKey.key);
                                     done();
                                 });
                         });

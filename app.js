@@ -3,6 +3,7 @@
 let express = require('express');
 let app = express();
 let bodyparser = require('body-parser');
+let keyFactory = require('./libs/api/keyFactory.es6');
 let passport = require('./libs/auth/auth.es6').passport;
 let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
@@ -25,13 +26,23 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', function (req, res) {
-    res.render('index');
-});
+app.get('/',
+    function (req, res) {
+        res.render('index');
+    });
 
-app.get('/home', ensureAuthenticated, function (req, res) {
-    res.render('index', {user: req.user.name});
-});
+app.get('/home',
+    ensureAuthenticated,
+    function (req, res) {
+        return keyFactory.getKey(req.user.id)
+            .then(function (key) {
+                res.render('home', {
+                    user: req.user.name,
+                    key: key.key
+                });
+
+            });
+    });
 
 app.get('/auth/google',
     passport.authenticate('google', {
@@ -51,7 +62,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/home');
+    res.redirect('/');
 }
 
 module.exports = app;

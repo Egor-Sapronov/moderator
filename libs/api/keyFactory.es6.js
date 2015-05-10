@@ -11,7 +11,13 @@ module.exports = (function () {
         });
     }
 
+    function getKey(userId) {
+        return db.ApiKey
+            .find({where: {UserId: userId}});
+    }
+
     return {
-        generate: generate
+        generate: generate,
+        getKey: getKey
     };
 })();
