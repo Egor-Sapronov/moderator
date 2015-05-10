@@ -9,6 +9,9 @@ let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
 let bodyParser = require('body-parser');
 
+app.use('/static', express.static('./web/dist'));
+app.set('view engine', 'jade');
+app.set('views', './web/src/templates');
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -22,6 +25,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/', function (req, res) {
+    res.render('index');
+});
+
+app.get('/home', ensureAuthenticated, function (req, res) {
+
+});
+
 app.get('/auth/google',
     passport.authenticate('google', {
         scope: ['https://www.googleapis.com/auth/userinfo.profile']
@@ -32,5 +43,12 @@ app.get('/oauth2callback',
         successRedirect: '/auth/google/success',
         failureRedirect: '/auth/google/failure'
     }));
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/home');
+}
 
 module.exports = app;
