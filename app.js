@@ -4,17 +4,17 @@ let express = require('express');
 let app = express();
 let bodyparser = require('body-parser');
 let passport = require('./libs/auth/auth.es6').passport;
+let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
-let bodyParser = require('body-parser');
 
 app.use('/static', express.static('./web/dist'));
 app.set('view engine', 'jade');
 app.set('views', './web/src/templates');
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended: false}));
 app.use(methodOverride());
 app.use(session({
     secret: 'secret',
@@ -39,10 +39,13 @@ app.get('/auth/google',
     }));
 
 app.get('/oauth2callback',
-    passport.authenticate('google', {
-        successRedirect: '/auth/google/success',
-        failureRedirect: '/auth/google/failure'
-    }));
+    passport.authenticate('google'),
+    function (req, res) {
+        authService.getToken(req.user)
+            .then(function (token) {
+                res.redirect('/home#' + token.token);
+            });
+    });
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
