@@ -55,7 +55,7 @@ block scripts
                         document.getElementById('result_container').innerHTML = '<p>' + result.result + '</p>';
                     })
                     .catch(function (err) {
-                        document.getElementById('result_container').innerHTML = '<p class="text-warning">' + err + '</p>';
+                        document.getElementById('result_container').innerHTML = '<p class="text-warning">' + err.message + '</p>';
                     });
         };
 
