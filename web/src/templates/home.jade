@@ -21,6 +21,11 @@ block main
                             label(for='key_input') Place your API Key
                             input.form-control#key_input(value=key)
                         button.btn.btn-default(type='submit') Check
+                .col-md-6
+                    .panel.panel-default
+                        .panel-heading Result
+                        .panel-body#result_container
+
 
 block scripts
     script(src='/static/lib/fetch/fetch.js')
@@ -48,6 +53,6 @@ block scripts
                         return response.json()
                     })
                     .then(function (json) {
-
+                        document.getElementById('result_container').innerHTML = '<p>' + json + '</p>';
                     });
         };
