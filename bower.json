@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
-    "normalize.css": "~3.0.3"
+    "normalize.css": "~3.0.3",
+    "fetch": "~0.8.1"
   }
 }

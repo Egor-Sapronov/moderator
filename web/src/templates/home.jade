@@ -20,6 +20,7 @@ block main
                         button.btn.btn-default(type='submit') Check
 
 block scripts
+    script(src='/static/lib/fetch/fetch.js')
     script.
 
         var submitForm = document.getElementById('check_form');
@@ -34,7 +35,7 @@ block scripts
 
             fetch('/api/execute', {
                 method: 'POST',
-                body: data
+                body: JSON.stringify(data)
             })
                     .then(function (response) {
                         return response.json()
