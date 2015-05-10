@@ -16,8 +16,18 @@ module.exports = (function () {
             .find({where: {UserId: userId}});
     }
 
+    function findKey(key) {
+        return db.ApiKey
+            .find({
+                where: {
+                    key: key
+                }
+            });
+    }
+
     return {
         generate: generate,
-        getKey: getKey
+        getKey: getKey,
+        findKey: findKey
     };
 })();

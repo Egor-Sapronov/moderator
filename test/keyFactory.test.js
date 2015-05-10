@@ -54,4 +54,50 @@ describe('Key factory', function () {
                 });
         });
     });
+
+    describe('#findKey', function () {
+        it('Should find key', function (done) {
+            db.sequelize
+                .sync({force: true})
+                .then(function () {
+                    return db.User
+                        .create({
+                            providerId: '1',
+                            profileLink: 'https://link.com'
+                        });
+                })
+                .then(function (user) {
+                    return factory.generate(user.id)
+                        .then(function (key) {
+                            return factory.findKey(key.key)
+                                .then(function (resultKey) {
+                                    expect(key.key).to.be.equal(resultKey.key);
+                                    done();
+                                })
+                        });
+                });
+        });
+
+        it('Should return null if key not found', function (done) {
+            db.sequelize
+                .sync({force: true})
+                .then(function () {
+                    return db.User
+                        .create({
+                            providerId: '1',
+                            profileLink: 'https://link.com'
+                        });
+                })
+                .then(function (user) {
+                    return factory.generate(user.id)
+                        .then(function (key) {
+                            return factory.findKey('asfasf')
+                                .then(function (resultKey) {
+                                    expect(resultKey).to.be.equal(null);
+                                    done();
+                                })
+                        });
+                });
+        });
+    });
 });

@@ -44,6 +44,30 @@ app.get('/home',
             });
     });
 
+app.post('/api/execute', function (req, res) {
+    if (!req.body) {
+        res.status(400).send('No body');
+    }
+
+    if (!req.body.content) {
+        res.status(400).send('No content');
+    }
+
+    if (!req.body.key) {
+        res.status(400).send('No API key');
+    }
+
+    return keyFactory.findKey(req.body.key)
+        .then(function (key) {
+            if (!key) {
+                res.status(400).send('Invalid API key');
+            }
+
+            res.status(200).send('Success');
+        });
+
+});
+
 app.get('/auth/google',
     passport.authenticate('google', {
         scope: ['https://www.googleapis.com/auth/userinfo.profile']
