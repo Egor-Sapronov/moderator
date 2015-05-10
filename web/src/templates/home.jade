@@ -53,6 +53,9 @@ block scripts
                     .then(json)
                     .then(function (result) {
                         document.getElementById('result_container').innerHTML = '<p>' + result.result + '</p>';
+                    })
+                    .catch(function (err) {
+                        document.getElementById('result_container').innerHTML = '<p class="text-warning">' + err + '</p>';
                     });
         };
 
