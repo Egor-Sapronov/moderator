@@ -16,7 +16,7 @@ block main
                             textarea.form-control#content_input
                         .form-group
                             label(for='key_input') Place your API Key
-                            input.form-control#key_input
+                            input.form-control#key_input #{key}
                         button.btn.btn-default(type='submit') Check
 
 block scripts
@@ -35,6 +35,10 @@ block scripts
 
             fetch('/api/execute', {
                 method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(data)
             })
                     .then(function (response) {
