@@ -30,7 +30,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/home', ensureAuthenticated, function (req, res) {
-
+    res.render('index');
 });
 
 app.get('/auth/google',
