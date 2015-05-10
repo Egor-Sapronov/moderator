@@ -46,15 +46,15 @@ app.get('/home',
 
 app.post('/api/execute', function (req, res) {
     if (!req.body) {
-        res.status(400).send('No body');
+        return res.status(400).send('No body');
     }
 
     if (!req.body.content) {
-        res.status(400).send('No content');
+        return res.status(400).send('No content');
     }
 
     if (!req.body.key) {
-        res.status(400).send('No API key');
+        return res.status(400).send('No API key');
     }
 
     return keyFactory.findKey(req.body.key)

@@ -9,14 +9,14 @@ block main
             h3 Your API key – #{key}
 
             .row
-                .col-s-4
+                .col-s-8
                     form#check_form
                         .form-group
                             label(for='content_input') Place your content
-                            textarea#content_input
+                            textarea.form-control#content_input
                         .form-group
                             label(for='key_input') Place your API Key
-                            input#key_input
+                            input.form-control#key_input
                         button.btn.btn-default(type='submit') Check
 
 block scripts
@@ -24,7 +24,9 @@ block scripts
 
         var submitForm = document.getElementById('check_form');
 
-        submitForm.onsubmit = function () {
+        submitForm.onsubmit = function (e) {
+            e.preventDefault();
+
             var data = {
                 content: document.getElementById('content_input').value,
                 key: document.getElementById('key_input').value
