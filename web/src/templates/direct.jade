@@ -1,0 +1,48 @@
+extends ./partials/layout
+block title
+    title Room
+block header
+    include ./partials/navbar
+block main
+    section
+        .container
+            form#query_form
+                .row
+                    .col-md-6
+                        .form-group
+                            label(for='queryies') Search query
+                            textarea.form-control#queryies(rows=16)
+                    .col-md-6
+                        .form-group
+                            label(for='template_query') Template
+                            textarea.form-control#template_query(rows=10)
+                        .form-group
+                            label(for='link') Link
+                            input.form-control#link(rows=10, type='text')
+                        button.btn.btn-primary Submit
+
+                #result_container
+
+block scripts
+    script.
+        var queryForm = document.getElementById('query_form');
+        var template = document.getElementById('template_query');
+        var linkValue = document.getElementById('link');
+
+        queryForm.onsubmit = function (e) {
+            e.preventDefault();
+
+            var searchQuery = document.getElementById('queryies').value.split('\n');
+
+            var result = '<div class="row"><div class="col-md-2">Phrase</div><div class="col-md-6">Banner</div><div class="col-md-4">Link</div></div>';
+
+            searchQuery.forEach(function (item) {
+                var value = '<div class="row"><div class="col-md-2"><input type="text" class="form-control" value="' + item +
+                        '"/></div><div class="col-md-6"><input type="text" class="form-control" value="' + template.value.replace('{subject}', 'house') + '"/></div>' + '<div class="col-md-4"><input type="text" class="form-control" value="' + linkValue.value + '"/></div></div><br>';
+
+                result += value;
+            });
+
+            document.getElementById('result_container').innerHTML = result;
+        };
+

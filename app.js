@@ -31,6 +31,11 @@ app.get('/',
         res.render('index');
     });
 
+app.get('/direct',
+    function (req, res) {
+        res.render('direct');
+    });
+
 app.get('/home',
     ensureAuthenticated,
     function (req, res) {
