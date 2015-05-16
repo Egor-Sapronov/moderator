@@ -37,7 +37,7 @@ app.get('/direct',
         res.render('direct');
     });
 
-app.get('learning',
+app.get('/learning',
     function (req, res) {
         res.render('learning');
     });
