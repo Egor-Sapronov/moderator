@@ -62,7 +62,7 @@ app.post('/api/phrases',
                 res.status(201).send(result);
             })
             .catch(function (err) {
-                res.status.send(err);
+                res.status(401).send(err);
             });
     });
 
