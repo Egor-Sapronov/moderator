@@ -57,7 +57,7 @@ app.get('/home',
 
 app.post('/api/phrases',
     function (req, res) {
-        phraseService.addPhrase(req.body.phrase)
+        phraseService.addPhrase(JSON.parse(req.body.phrase))
             .then(function (result) {
                 res.status(201).send(result);
             })
