@@ -9,6 +9,7 @@ let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
+let phraseService = require('./libs/api/keyFactory.es6');
 
 app.use('/static', express.static('./web/dist'));
 app.set('view engine', 'jade');
@@ -36,6 +37,11 @@ app.get('/direct',
         res.render('direct');
     });
 
+app.get('learning',
+    function (req, res) {
+        res.render('learning');
+    });
+
 app.get('/home',
     ensureAuthenticated,
     function (req, res) {
@@ -47,6 +53,28 @@ app.get('/home',
                 });
 
             });
+    });
+
+app.post('/api/phrases',
+    function (req, res) {
+        phraseService.addPhrase(req.body.phrase)
+            .then(function (result) {
+                res.status(201).send(result);
+            })
+            .catch(function (err) {
+                res.status.send(err);
+            });
+    });
+
+app.get('/api/phrases',
+    function (req, res) {
+        phraseService.getAll()
+            .then(function (items) {
+                res.send(items);
+            })
+            .catch(function (err) {
+                res.status.send(err);
+            })
     });
 
 app.post('/api/execute', function (req, res) {
