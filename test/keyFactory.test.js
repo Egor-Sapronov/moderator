@@ -2,7 +2,7 @@
 require('./test.env.es6');
 
 let expect = require('chai').expect;
-let factory = require('../libs/resource/keyFactory.es6');
+let factory = require('../libs/resource/key.es6.js');
 let db = require('../libs/database.es6');
 
 describe('Key factory', function () {

@@ -2,7 +2,7 @@
 
 let db = require('../database.es6');
 let authService = require('./authService.es6');
-let keyFactory = require('../resource/keyFactory.es6');
+let keyFactory = require('../resource/key.es6.js');
 
 /**
  * Exchange user for access token
