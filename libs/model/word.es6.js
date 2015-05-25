@@ -1,10 +1,14 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    return sequelize.define('Phrase', {
-            content: {
+    return sequelize.define('Word', {
+            name: {
                 type: DataTypes.STRING,
-                unique: true
+                unique: false
+            },
+            info: {
+                type: DataTypes.JSON,
+                unique: false
             }
         },
         {
