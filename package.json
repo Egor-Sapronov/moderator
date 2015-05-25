@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "iojs": "^1.5.0",
-    "npm": "^2.7.0"
+    "iojs": "^2.1.0",
+    "npm": "^2.10.0"
   },
   "scripts": {
     "start": "node index.js",

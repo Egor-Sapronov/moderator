@@ -3,13 +3,13 @@
 let express = require('express');
 let app = express();
 let bodyparser = require('body-parser');
-let keyFactory = require('./libs/api/keyFactory.es6');
+let keyFactory = require('./libs/resource/keyFactory.es6');
 let passport = require('./libs/auth/auth.es6').passport;
 let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
-let phraseService = require('./libs/api/phrase.es6');
+let phraseService = require('./libs/resource/phrase.es6');
 
 app.use('/static', express.static('./web/dist'));
 app.set('view engine', 'jade');
@@ -55,27 +55,6 @@ app.get('/home',
             });
     });
 
-app.post('/api/phrases',
-    function (req, res) {
-        phraseService.addPhrase(req.body.phrase)
-            .then(function (result) {
-                res.status(201).send(result);
-            })
-            .catch(function (err) {
-                res.status(401).send(err);
-            });
-    });
-
-app.get('/api/phrases',
-    function (req, res) {
-        phraseService.getAll()
-            .then(function (items) {
-                res.send(items);
-            })
-            .catch(function (err) {
-                res.status.send(err);
-            })
-    });
 
 app.post('/api/execute', function (req, res) {
     if (!req.body) {
