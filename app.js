@@ -9,6 +9,7 @@ let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
+let apiRouter = require('./router/api.es6');
 
 app.use('/static', express.static('./web/dist'));
 app.set('view engine', 'jade');
@@ -25,6 +26,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/api', apiRouter);
 
 app.get('/',
     function (req, res) {
@@ -55,30 +58,6 @@ app.get('/home',
     });
 
 
-app.post('/api/execute', function (req, res) {
-    if (!req.body) {
-        return res.status(400).send('No body');
-    }
-
-    if (!req.body.content) {
-        return res.status(400).send('No content');
-    }
-
-    if (!req.body.key) {
-        return res.status(400).send('No API key');
-    }
-
-    return keyFactory.findKey(req.body.key)
-        .then(function (key) {
-            if (!key) {
-                res.status(400).send('Invalid API key');
-            }
-
-            res.status(200).send({result: 'Success'});
-        });
-
-});
-
 app.get('/auth/google',
     passport.authenticate('google', {
         scope: ['https://www.googleapis.com/auth/userinfo.profile']
@@ -92,6 +71,27 @@ app.get('/oauth2callback',
                 res.redirect('/home#' + token.token);
             });
     });
+
+app.use(function (req, res, next) {
+    res.status(404);
+
+    //if (req.accepts('html')) {
+    //    res.render('404', {url: req.url});
+    //    return;
+    //}
+
+    if (req.accepts('json')) {
+        res.send({error: 'Not found'});
+        return;
+    }
+
+    res.type('txt').send('Not found');
+});
+
+app.use(function (err, req, res, next) {
+    console.log(err);
+    res.status(err.status || 500).end('Server error');
+});
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
