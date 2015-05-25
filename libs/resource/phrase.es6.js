@@ -3,19 +3,19 @@
 module.exports = (function () {
     let db = require('../database.es6');
 
-    function addPhrase(phrase) {
-        return db.Phrase.create({
-            content: phrase.content,
-            subject: phrase.subject
-        });
+    function add(phrases) {
+        if (phrases.length === 0) {
+            return Promise.reject('Empty phrases array');
+        }
+        return db.Phrase.bulkCreate(phrases);
     }
 
-    function getAll() {
+    function get() {
         return db.Phrase.findAll();
     }
 
     return {
-        addPhrase: addPhrase,
-        getAll: getAll
+        get: get,
+        add: add
     };
 })();

@@ -9,7 +9,6 @@ let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
-let phraseService = require('./libs/resource/phrase.es6');
 
 app.use('/static', express.static('./web/dist'));
 app.set('view engine', 'jade');

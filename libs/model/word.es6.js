@@ -6,6 +6,10 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 unique: false
             },
+            class: {
+                type: DataTypes.JSON,
+                unique: false
+            },
             info: {
                 type: DataTypes.JSON,
                 unique: false
