@@ -16,7 +16,7 @@ var config = {
     },
     module: {
         loaders: [
-            {test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap')},
+            {test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader')},
             {test: /\.png$/, loader: "url-loader?limit=100000"},
             {test: /\.jpg$/, loader: "file-loader"},
             {test: /\.jsx/, loader: "jsx-loader"},
@@ -32,6 +32,11 @@ var config = {
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery"
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: true
+            }
         }),
         new ExtractTextPlugin("css/[name].css"),
         new BowerWebpackPlugin({
