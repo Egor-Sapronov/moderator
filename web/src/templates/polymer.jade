@@ -1,0 +1,43 @@
+doctype
+html.no-js
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        block title
+        meta(name='description', content='')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        script(src='/static/lib/webcomponentsjs/webcomponents-lite.js')
+        script.
+            window.Polymer = window.Polymer || {};
+            window.Polymer.dom = 'shadow';
+        link(rel="import", href="/static/lib/polymer/polymer.html")
+        link(rel="import" href="/static/lib/paper-button/paper-button.html")
+        link(rel="import" href="/static/lib/paper-menu/paper-menu.html")
+        link(rel="import" href="/static/lib/paper-item/paper-item.html")
+        link(rel="import" href="/static/lib/paper-tabs/paper-tabs.html")
+        block stylesheets
+    body
+        <!--[if lt IE 8]>
+        p.browsehappy
+            | You are using an <strong>outdated</strong> browser.
+            | Please <a href="http://browsehappy.com/">upgrade your browser</a>
+            | to improve your experience.
+        <![endif]-->
+
+        paper-tabs(selected="0")
+            paper-tab TAB 1
+            paper-tab TAB 2
+            paper-tab TAB 3
+
+        paper-button(flat) button
+        paper-button(raised) raised button
+        paper-button(noink) No ripple effect
+
+        paper-menu
+            paper-item
+                Item 1
+            paper-item
+                Item 2
+
+        script(src='/static/lib/fetch/fetch.js')
+        block scripts

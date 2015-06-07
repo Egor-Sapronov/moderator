@@ -2,6 +2,7 @@
 
 let router = require('express').Router();
 let phrase = require('../libs/resource/phrase.es6');
+let keyFactory = require('../libs/resource/key.es6');
 
 router.get('/phrases', function (req, res) {
     return phrase.get()

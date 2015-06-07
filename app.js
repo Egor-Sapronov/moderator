@@ -34,6 +34,11 @@ app.get('/',
         res.render('index');
     });
 
+app.get('/polymer',
+    function (req, res) {
+        res.render('polymer');
+    });
+
 app.get('/direct',
     function (req, res) {
         res.render('direct');
