@@ -40,6 +40,7 @@
     "morgan": "^1.5.1",
     "nconf": "^0.7.1",
     "node-libs-browser": "^0.5.2",
+    "bower-webpack-plugin": "^0.1.8",
     "passport": "~0.2.1",
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^0.2.0",
@@ -57,7 +58,6 @@
     "yargs": "^3.4.5"
   },
   "devDependencies": {
-    "bower-webpack-plugin": "^0.1.8",
     "chai": "^2.3.0",
     "mocha": "^2.2.4",
     "node-env-file": "^0.1.7"
