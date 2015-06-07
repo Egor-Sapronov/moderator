@@ -5,6 +5,12 @@ module.exports = function (sequelize, DataTypes) {
             content: {
                 type: DataTypes.STRING,
                 unique: false
+            },
+            words: {
+                type: DataTypes.VIRTUAL,
+                get: function () {
+                    return this.content.split(' ');
+                }
             }
         },
         {
