@@ -28,7 +28,11 @@ app.use(passport.session());
 
 app.get('/',
     function (req, res) {
-        res.render('index');
+        if (req.user) {
+            res.render('index', {user: req.user.name});
+        } else {
+            res.render('index');
+        }
     });
 
 
@@ -42,7 +46,7 @@ app.get('/oauth2callback',
     function (req, res) {
         authService.getToken(req.user)
             .then(function (token) {
-                res.redirect('/#' + token.token, {user: req.user.name});
+                res.redirect('/#' + token.token);
             });
     });
 
