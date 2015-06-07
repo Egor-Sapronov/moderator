@@ -16,6 +16,8 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
-    "fetch": "~0.8.1"
+    "fetch": "~0.8.1",
+    "react": "~0.13.3",
+    "eventemitter2": "~0.4.14"
   }
 }

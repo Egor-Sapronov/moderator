@@ -7,11 +7,8 @@ module.exports = function (sequelize, DataTypes) {
                 unique: false
             },
             class: {
-                type: DataTypes.STRING,
-                unique: false
-            },
-            info: {
-                type: DataTypes.JSON,
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
                 unique: false
             }
         },

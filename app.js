@@ -8,6 +8,7 @@ let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
+let apiRouter = require('./router/api.es6');
 
 app.use('/static', express.static('./web/dist'));
 app.set('view engine', 'jade');
@@ -25,6 +26,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/api', apiRouter);
 
 app.get('/',
     function (req, res) {
@@ -32,6 +34,15 @@ app.get('/',
             res.render('index', {user: req.user.name});
         } else {
             res.render('index');
+        }
+    });
+
+app.get('/learning',
+    function (req, res) {
+        if (req.user) {
+            res.render('learning', {user: req.user.name});
+        } else {
+            res.render('learning');
         }
     });
 

@@ -1,15 +1,13 @@
 extend ./partials/layout
-
 block header
     include ./partials/navbar
 
 block stylesheets
-    link(rel='stylesheet', href='/static/css/index.css')
+    link(rel='stylesheet', href='/static/css/learn.css')
 
 block main
     section
         .container
-            #form_container
-
+            #words_container
 block scripts
-    script(src='/static/index.js')
+    script(src='/static/learn.js')
