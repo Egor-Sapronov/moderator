@@ -2,7 +2,6 @@
 
 let db = require('../database.es6');
 let authService = require('./authService.es6');
-let keyFactory = require('../resource/key.es6.js');
 
 /**
  * Exchange user for access token
@@ -41,13 +40,6 @@ function googleStartegy(accessToken, tokenSecret, profile, done) {
         .spread(function (user, created) {
             authService
                 .saveToken(user, accessToken)
-                .then(function () {
-                    if (created) {
-                        return keyFactory.generate(user.id);
-                    }
-
-                    return Promise.resolve();
-                })
                 .then(function () {
                     return done(null, user);
                 });

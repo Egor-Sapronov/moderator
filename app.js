@@ -3,7 +3,6 @@
 let express = require('express');
 let app = express();
 let bodyparser = require('body-parser');
-let keyFactory = require('./libs/resource/key.es6.js');
 let passport = require('./libs/auth/auth.es6').passport;
 let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
@@ -31,35 +30,20 @@ app.use('/api', apiRouter);
 
 app.get('/',
     function (req, res) {
-        res.render('index');
-    });
-
-app.get('/polymer',
-    function (req, res) {
-        res.render('polymer');
-    });
-
-app.get('/direct',
-    function (req, res) {
-        res.render('direct');
+        if (req.user) {
+            res.render('index', {user: req.user.name});
+        } else {
+            res.render('index');
+        }
     });
 
 app.get('/learning',
     function (req, res) {
-        res.render('learning');
-    });
-
-app.get('/home',
-    ensureAuthenticated,
-    function (req, res) {
-        return keyFactory.getKey(req.user.id)
-            .then(function (key) {
-                res.render('home', {
-                    user: req.user.name,
-                    key: key.key
-                });
-
-            });
+        if (req.user) {
+            res.render('learning', {user: req.user.name});
+        } else {
+            res.render('learning');
+        }
     });
 
 
@@ -73,17 +57,17 @@ app.get('/oauth2callback',
     function (req, res) {
         authService.getToken(req.user)
             .then(function (token) {
-                res.redirect('/home#' + token.token);
+                res.redirect('/#' + token.token);
             });
     });
 
 app.use(function (req, res, next) {
     res.status(404);
-
-    //if (req.accepts('html')) {
-    //    res.render('404', {url: req.url});
-    //    return;
-    //}
+    console.log(req.url);
+    if (req.accepts('html')) {
+        res.render('404', {url: req.url});
+        return;
+    }
 
     if (req.accepts('json')) {
         res.send({error: 'Not found'});

@@ -11,6 +11,10 @@ module.exports = function (sequelize, DataTypes) {
                 get: function () {
                     return this.content.split(' ');
                 }
+            },
+            submited: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
             }
         },
         {

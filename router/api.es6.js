@@ -1,44 +1,75 @@
 'use strict';
 
 let router = require('express').Router();
-let phrase = require('../libs/resource/phrase.es6');
-let keyFactory = require('../libs/resource/key.es6');
-
-router.get('/phrases', function (req, res) {
-    return phrase.get()
-        .then(function (items) {
-            var data = JSON.stringify({phrases: items});
-            return res.status(200).send(data);
-        });
-});
+let uow = require('../libs/resource/uow.es6');
+let parser = require("odata-parser");
+let url = require('url');
 
 router.post('/phrases', function (req, res) {
-    return phrase.add(req.body.phrases)
-        .then(function () {
-            return res.status(201).end();
+    return uow.phrases.create(req.body)
+        .then(function (phrase) {
+            uow.words.bulkCreate(phrase.words.map(function (item) {
+                return {
+                    name: item,
+                    PhraseId: phrase.id
+                }
+            }))
+                .then(function () {
+                    res.status(201).send(phrase);
+                });
         });
 });
 
-router.post('/execute', function (req, res) {
-    if (!req.body) {
-        return res.status(400).send('No body');
+router.get('/words', function (req, res) {
+    return uow.words.findAll({
+        include: [{all: true}],
+        order: [['id', 'DESC']]
+    })
+        .then(function (result) {
+            res.send(result);
+        });
+});
+
+router.put('/phrases/:id', function (req, res) {
+    return uow.phrases.findById(req.params.id)
+        .then(function (phrase) {
+            phrase.submited = req.body.submited;
+            return phrase.save();
+        })
+        .then(function (phrase) {
+            res.send(phrase);
+        });
+});
+
+router.put('/words/:id', function (req, res) {
+    return uow.words.findById(req.params.id)
+        .then(function (word) {
+            word.class = req.body.class;
+            return word.save();
+        })
+        .then(function (word) {
+            res.send(word);
+        });
+});
+
+router.get('/phrases', function (req, res) {
+    var options = {
+        include: [{all: true}],
+        order: [['id', 'DESC']]
+    };
+    if (req.query.select) {
+        options.attributes = req.query.select.replace(' ', '').split(',')
     }
 
-    if (!req.body.content) {
-        return res.status(400).send('No content');
+    if (!req.query.all) {
+        options.where = {
+            submited: false
+        }
     }
 
-    if (!req.body.key) {
-        return res.status(400).send('No API key');
-    }
-
-    return keyFactory.findKey(req.body.key)
-        .then(function (key) {
-            if (!key) {
-                res.status(400).send('Invalid API key');
-            }
-
-            res.status(200).send({result: 'Success'});
+    return uow.phrases.findAll(options)
+        .then(function (result) {
+            res.send(result);
         });
 });
 

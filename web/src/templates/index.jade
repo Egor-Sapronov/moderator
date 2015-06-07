@@ -2,3 +2,14 @@ extend ./partials/layout
 
 block header
     include ./partials/navbar
+
+block stylesheets
+    link(rel='stylesheet', href='/static/css/index.css')
+
+block main
+    section
+        .container
+            #form_container
+
+block scripts
+    script(src='/static/index.js')

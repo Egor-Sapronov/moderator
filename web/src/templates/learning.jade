@@ -1,85 +1,13 @@
-extends ./partials/layout
-block title
-    title Learning
+extend ./partials/layout
 block header
     include ./partials/navbar
+
+block stylesheets
+    link(rel='stylesheet', href='/static/css/learn.css')
+
 block main
     section
         .container
-            form#phrase_form
-                .row
-                    .col-md-6
-                        .form-group
-                            label(for='phrase') Поисковая фраза
-                            input.form-control#phrase(type='text')
-                    .col-md-6
-                        .form-group
-                            label(for='subject') Subject
-                            input.form-control#subject(type='text')
-                        button.btn.btn-primary Submit
-                #result_container
-
+            #words_container
 block scripts
-    script.
-        var queryForm = document.getElementById('phrase_form');
-        var phrase = document.getElementById('phrase');
-        var subject = document.getElementById('subject');
-        loadResult();
-        queryForm.onsubmit = function (e) {
-            e.preventDefault();
-
-            var item = {
-                content: phrase.value,
-                subject: subject.value
-            }
-
-            fetch('/api/phrases', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({phrase: item})
-            })
-                    .then(status)
-                    .then(json)
-                    .then(function (result) {
-                        loadResult();
-                    })
-                    .catch(function (err) {
-                        alert('Ошибка');
-                    });
-        };
-
-        function loadResult() {
-            fetch('/api/phrases', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                    .then(status)
-                    .then(json)
-                    .then(function (data) {
-                        var result = '<div class="row"><div class="col-md-4"><p>Поисковая фраза</p></div><div class="col-md-4"><p>Subject</p></div></div>';
-                        data.forEach(function (item) {
-                            result += '<div class="row"><div class="col-md-4"><p>' + item.content + '</p></div><div class="col-md-4"><p>' + item.subject + '</p></div></div>';
-                        });
-
-                        document.getElementById('result_container').innerHTML = result;
-                    });
-        }
-
-        function status(response) {
-            if (response.status >= 200 && response.status < 300) {
-                return Promise.resolve(response);
-            } else {
-                return Promise.reject(new Error(response.statusText));
-            }
-        }
-
-
-        function json(response) {
-            return response.json();
-        }
+    script(src='/static/learn.js')
