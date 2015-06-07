@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
                 unique: false
             },
             class: {
-                type: DataTypes.JSON,
+                type: DataTypes.STRING,
                 unique: false
             },
             info: {

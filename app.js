@@ -27,39 +27,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api', apiRouter);
 
 app.get('/',
     function (req, res) {
         res.render('index');
-    });
-
-app.get('/polymer',
-    function (req, res) {
-        res.render('polymer');
-    });
-
-app.get('/direct',
-    function (req, res) {
-        res.render('direct');
-    });
-
-app.get('/learning',
-    function (req, res) {
-        res.render('learning');
-    });
-
-app.get('/home',
-    ensureAuthenticated,
-    function (req, res) {
-        return keyFactory.getKey(req.user.id)
-            .then(function (key) {
-                res.render('home', {
-                    user: req.user.name,
-                    key: key.key
-                });
-
-            });
     });
 
 
@@ -80,10 +51,10 @@ app.get('/oauth2callback',
 app.use(function (req, res, next) {
     res.status(404);
 
-    //if (req.accepts('html')) {
-    //    res.render('404', {url: req.url});
-    //    return;
-    //}
+    if (req.accepts('html')) {
+        res.render('404', {url: req.url});
+        return;
+    }
 
     if (req.accepts('json')) {
         res.send({error: 'Not found'});
