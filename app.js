@@ -3,13 +3,11 @@
 let express = require('express');
 let app = express();
 let bodyparser = require('body-parser');
-let keyFactory = require('./libs/resource/key.es6.js');
 let passport = require('./libs/auth/auth.es6').passport;
 let authService = require('./libs/auth/authService.es6');
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let methodOverride = require('method-override');
-let apiRouter = require('./router/api.es6');
 
 app.use('/static', express.static('./web/dist'));
 app.set('view engine', 'jade');
@@ -44,7 +42,7 @@ app.get('/oauth2callback',
     function (req, res) {
         authService.getToken(req.user)
             .then(function (token) {
-                res.redirect('/home#' + token.token);
+                res.redirect('/#' + token.token);
             });
     });
 
